@@ -3,7 +3,7 @@ phases:
   install:
     commands:
       - echo Installing Node.js 22.11.0...
-      - apk add --no-cache curl
+      - curl --version || echo "curl not found; ensure environment has curl"
       - curl -fsSL https://nodejs.org/dist/v22.11.0/node-v22.11.0-linux-x64.tar.xz | tar -xJ -C /usr/local --strip-components=1
       - node --version
       - npm --version
