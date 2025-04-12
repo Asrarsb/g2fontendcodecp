@@ -21,19 +21,14 @@ phases:
       - echo Removing node_modules if present...
       - rm -rf node_modules/
       - echo Running npm install...
-      - npm install
+      - npm ci
       - echo Checking environment variables...
       - echo REACT_APP_API_URL_IDEA=$REACT_APP_API_URL_IDEA
       - echo REACT_APP_API_URL_COMMENT=$REACT_APP_API_URL_COMMENT
       - echo REACT_APP_API_URL_USER=$REACT_APP_API_URL_USER
       - echo REACT_APP_API_URL_MESSAGE=$REACT_APP_API_URL_MESSAGE
       - echo Running docker build...
-      - docker build \
-          --build-arg REACT_APP_API_URL_IDEA="$REACT_APP_API_URL_IDEA" \
-          --build-arg REACT_APP_API_URL_COMMENT="$REACT_APP_API_URL_COMMENT" \
-          --build-arg REACT_APP_API_URL_USER="$REACT_APP_API_URL_USER" \
-          --build-arg REACT_APP_API_URL_MESSAGE="$REACT_APP_API_URL_MESSAGE" \
-          -t 124355663661.dkr.ecr.ap-northeast-3.amazonaws.com/g2-frontend-cp:test .
+      - docker build --build-arg REACT_APP_API_URL_IDEA="$REACT_APP_API_URL_IDEA" --build-arg REACT_APP_API_URL_COMMENT="$REACT_APP_API_URL_COMMENT" --build-arg REACT_APP_API_URL_USER="$REACT_APP_API_URL_USER" --build-arg REACT_APP_API_URL_MESSAGE="$REACT_APP_API_URL_MESSAGE" -t 124355663661.dkr.ecr.ap-northeast-3.amazonaws.com/g2-frontend-cp:test .
   post_build:
     commands:
       - echo Pushing Docker image to ECR...
