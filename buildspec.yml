@@ -1,5 +1,12 @@
 version: 0.2
 phases:
+  install:
+    commands:
+      - echo Installing Node.js 22.11.0...
+      - apk add --no-cache curl
+      - curl -fsSL https://nodejs.org/dist/v22.11.0/node-v22.11.0-linux-x64.tar.xz | tar -xJ -C /usr/local --strip-components=1
+      - node --version
+      - npm --version
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
@@ -14,7 +21,7 @@ phases:
       - echo Removing node_modules if present...
       - rm -rf node_modules/
       - echo Running npm install...
-      - npm install || echo "npm install failed with exit code $?"
+      - npm install
       - echo Checking environment variables...
       - echo REACT_APP_API_URL_IDEA=$REACT_APP_API_URL_IDEA
       - echo REACT_APP_API_URL_COMMENT=$REACT_APP_API_URL_COMMENT
@@ -22,12 +29,11 @@ phases:
       - echo REACT_APP_API_URL_MESSAGE=$REACT_APP_API_URL_MESSAGE
       - echo Running docker build...
       - docker build \
-          --build-arg REACT_APP_API_URL_IDEA=$REACT_APP_API_URL_IDEA \
-          --build-arg REACT_APP_API_URL_COMMENT=$REACT_APP_API_URL_COMMENT \
-          --build-arg REACT_APP_API_URL_USER=$REACT_APP_API_URL_USER \
-          --build-arg REACT_APP_API_URL_MESSAGE=$REACT_APP_API_URL_MESSAGE \
-          -t 124355663661.dkr.ecr.ap-northeast-3.amazonaws.com/g2-frontend-cp:test . \
-          || echo "Docker build failed with exit code $?"
+          --build-arg REACT_APP_API_URL_IDEA="$REACT_APP_API_URL_IDEA" \
+          --build-arg REACT_APP_API_URL_COMMENT="$REACT_APP_API_URL_COMMENT" \
+          --build-arg REACT_APP_API_URL_USER="$REACT_APP_API_URL_USER" \
+          --build-arg REACT_APP_API_URL_MESSAGE="$REACT_APP_API_URL_MESSAGE" \
+          -t 124355663661.dkr.ecr.ap-northeast-3.amazonaws.com/g2-frontend-cp:test .
   post_build:
     commands:
       - echo Pushing Docker image to ECR...
