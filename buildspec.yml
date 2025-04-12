@@ -6,13 +6,15 @@ phases:
       - aws ecr get-login-password --region ap-northeast-3 | docker login --username AWS --password-stdin 124355663661.dkr.ecr.ap-northeast-3.amazonaws.com
   build:
     commands:
-      - echo Building Frontend Docker image...
-      - docker build -t newg2-repo frontend -f Frontend/Dockerfile Frontend
-      - docker tag newg2-repo-frontend:latest 124355663661.dkr.ecr.ap-northeast-3.amazonaws.com/newg2-repo:frontend
+      - echo Building Docker image...
+      # Dockerfile is in the root directory, so we can build directly from the root context.
+      - docker build -t newg2-repo -f Dockerfile .
+      # Tag the built image with the ECR repository URI
+      - docker tag newg2-repo:latest 124355663661.dkr.ecr.ap-northeast-3.amazonaws.com/newg2-repo:frontend
   post_build:
     commands:
-      - echo Pushing Frontend Docker image to ECR...
-      - docker push 124355663661.dkr.ecr.ap-northeast-3.amazonaws.com/newg2-repo:latest
+      - echo Pushing Docker image to ECR...
+      - docker push 124355663661.dkr.ecr.ap-northeast-3.amazonaws.com/newg2-repo:frontend
       - echo Writing image definitions...
       - printf '[{"name":"FrontEnd","imageUri":"124355663661.dkr.ecr.ap-northeast-3.amazonaws.com/newg2-repo:frontend"}]' > imagedefinitions.json
 artifacts:
