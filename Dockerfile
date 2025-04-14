@@ -9,10 +9,10 @@ ARG REACT_APP_API_URL_USER
 ARG REACT_APP_API_URL_MESSAGE
 
 # Set environment variables for the build
-ENV REACT_APP_API_URL_IDEA=$REACT_APP_API_URL_IDEA
-ENV REACT_APP_API_URL_COMMENT=$REACT_APP_API_URL_COMMENT
+ENV REACT_APP_API_URL_IDEA=https://6525fqc6vf.execute-api.ap-northeast-3.amazonaws.com
+ENV REACT_APP_API_URL_COMMENT=https://6525fqc6vf.execute-api.ap-northeast-3.amazonaws.com
 ENV REACT_APP_API_URL_USER=https://6525fqc6vf.execute-api.ap-northeast-3.amazonaws.com
-ENV REACT_APP_API_URL_MESSAGE=$REACT_APP_API_URL_MESSAGE
+ENV REACT_APP_API_URL_MESSAGE=https://6525fqc6vf.execute-api.ap-northeast-3.amazonaws.com
 
 RUN npm install
 RUN npm run build
