@@ -26,7 +26,7 @@ function Login() {
 
     setIsLoading(true);
     try {
-      const response = await axios.post('https://6525fqc6vf.execute-api.ap-northeast-3.amazonaws.com/user/authenticate`, {
+      const response = await axios.post('${process.env.REACT_APP_API_URL_USER}/user/authenticate`, {
         username,
         password,
       });
